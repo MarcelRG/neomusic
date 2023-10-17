@@ -1,14 +1,42 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+type SpotifyOAuthResponse = {
+  access_token: string;
+  refresh_token: string;
+  expires_in: number;
+  token_type: string;
+};
 
 export const postRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
+  spotifyOAuth: publicProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ input }): Promise<SpotifyOAuthResponse> => {
+      const response = await fetch(
+        `https://api.clerk.com/v1/users/${input.userId}/oauth_access_tokens/oauth_spotify`,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
+          },
+        },
+      );
+      const data = await response.json();
+      return data;
+    }),
+
+  album: publicProcedure
+    .input(z.object({ token: z.string() }))
+    .query(async ({ input }) => {
+      const response = await fetch(
+        `https://api.spotify.com/v1/search?q=The+Beatles&type=artist`,
+        {
+          headers: {
+            Authorization: `Bearer ${input.token}`,
+          },
+        },
+      );
+      const data = await response.json();
+      return data;
     }),
 
   create: publicProcedure
