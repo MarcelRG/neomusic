@@ -39,8 +39,7 @@ export default async function Home() {
     );
 
   const sOA = await api.post.spotifyOAuth.query({ userId: user.id });
-  const token = sOA && sOA.length > 0 ? sOA[0].token : undefined;
-  const results = await api.post.album.query({ token });
+  const results = await api.post.album.query({ token: sOA?.[0]?.token });
   const tableRows: JSX.Element[] =
     results?.artists?.items?.map((artist: any) => (
       <TableRow key={artist.id}>
