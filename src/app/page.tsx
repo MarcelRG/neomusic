@@ -7,15 +7,8 @@ import {
 } from "@clerk/nextjs";
 import Link from "next/link";
 
-import { CreatePost } from "~/app/_components/create-post";
 import { api } from "~/trpc/server";
 import { currentUser } from "@clerk/nextjs";
-import Image from "next/image";
-import { NextResponse } from "next/server";
-import { getAuth } from "@clerk/nextjs/server";
-
-import { SpotifyOAuthResponse } from "~/trpc/spotify";
-import { AlbumResponse } from "~/trpc/album";
 
 export default async function Home() {
   const user = await currentUser();
