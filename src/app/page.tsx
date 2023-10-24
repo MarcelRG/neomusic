@@ -3,12 +3,12 @@ import {
   SignInButton,
   SignOutButton,
   UserButton,
+  currentUser,
   useUser,
 } from "@clerk/nextjs";
 import Link from "next/link";
 
 import { api } from "~/trpc/server";
-import { currentUser } from "@clerk/nextjs";
 import {
   Table,
   TableBody,
@@ -38,21 +38,40 @@ export default async function Home() {
       </main>
     );
 
-  const sOA = await api.post.spotifyOAuth.query({ userId: user.id });
-  const results = await api.post.album.query({ token: sOA?.[0]?.token });
+  const results = await api.post.artist.query({
+    userId: user.id,
+    q: "Beatles",
+    type: "artist",
+  });
+  const genre = await api.post.genre.query();
   const tableRows: JSX.Element[] =
-    results?.artists?.items?.map((artist: any) => (
-      <TableRow key={artist.id}>
-        <TableCell>{artist.name}</TableCell>
-        <TableCell>{artist.popularity}</TableCell>
-        <TableCell>{artist.followers?.total}</TableCell>
+    results.map(
+      (artist: {
+        id: string;
+        name: string;
+        popularity: number;
+        followers?: { total?: number };
+      }) => (
+        <TableRow key={artist.id}>
+          <TableCell>{artist.name}</TableCell>
+          <TableCell>{artist.popularity}</TableCell>
+          <TableCell>{artist.followers?.total}</TableCell>
+        </TableRow>
+      ),
+    ) || [];
+  const genreRows: JSX.Element[] =
+    genre?.map((genre: any) => (
+      <TableRow key={genre.id}>
+        <TableCell>{genre.name}</TableCell>
+        <TableCell>{artist.playlist}</TableCell>
+        <TableCell>{artist.hex}</TableCell>
       </TableRow>
     )) || [];
   return (
     <main className="justify-centerq flex min-h-screen flex-col items-center">
       <div>
         <ModeToggle />
-      </div>{" "}
+      </div>
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
         <UserButton />
         <Button>Click me</Button>

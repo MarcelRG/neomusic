@@ -1,43 +1,48 @@
 import { z } from "zod";
+import { ArtistSearchResult } from "@spotify/web-api-ts-sdk";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-type SpotifyOAuthResponse = {
-  access_token: string;
-  refresh_token: string;
-  expires_in: number;
-  token_type: string;
+import { clerkClient } from "@clerk/nextjs/server";
+import { SpotifyApi } from "@spotify/web-api-ts-sdk";
+
+const getToken = async (userId: string) => {
+  const response = await clerkClient.users.getUserOauthAccessToken(
+    userId,
+    `oauth_spotify`,
+  );
+  if (response?.[0]) {
+    return response[0].token;
+  }
+  throw new Error("Failed to get token");
 };
 
 export const postRouter = createTRPCRouter({
-  spotifyOAuth: publicProcedure
-    .input(z.object({ userId: z.string() }))
-    .query(async ({ input }): Promise<SpotifyOAuthResponse> => {
+  artist: publicProcedure
+    .input(z.object({ userId: z.string(), q: z.string(), type: z.string() }))
+    .query(async ({ input }) => {
+      const token = await getToken(input.userId);
       const response = await fetch(
-        `https://api.clerk.com/v1/users/${input.userId}/oauth_access_tokens/oauth_spotify`,
+        `https://api.spotify.com/v1/search?q=${input.q}&type=${input.type}`,
         {
           headers: {
-            Authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
-      const data = await response.json();
-      return data;
+
+      const data = response.ok ? await response.json() : null;
+      const items = data?.artists?.items;
+      if (!items) {
+        throw new Error("Failed to get items");
+      }
+      return items;
     }),
 
-  album: publicProcedure
-    .input(z.object({ token: z.string() }))
-    .query(async ({ input }) => {
-      const response = await fetch(
-        `https://api.spotify.com/v1/search?q=The+Beatles&type=artist`,
-        {
-          headers: {
-            Authorization: `Bearer ${input.token}`,
-          },
-        },
-      );
-      const data = await response.json();
-      return data;
-    }),
+  genre: publicProcedure.query(({ ctx }) => {
+    return ctx.db.genre.findFirst({
+      orderBy: { name: "desc" },
+    });
+  }),
 
   create: publicProcedure
     .input(z.object({ name: z.string().min(1) }))
