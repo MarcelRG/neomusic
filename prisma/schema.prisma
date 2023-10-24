@@ -9,10 +9,20 @@ datasource db {
 }
 
 model Genre {
-    id       String @id @default(cuid())
-    name     String @unique
-    x        Int
-    y        Int
-    hex      String
-    playlist String
+    id         String @id @default(cuid())
+    name       String @unique
+    x          Int
+    y          Int
+    hex        String
+    playlist   String
+    popularity Int
+    emergence  Int?
+    modernity  Int?
+    youth      Int?
+    femininity Int?
+    background Int
+    tempo      Int
+    duration   Int
+    color      Int
+    added      Int
 }

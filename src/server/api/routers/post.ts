@@ -39,8 +39,9 @@ export const postRouter = createTRPCRouter({
     }),
 
   genre: publicProcedure.query(({ ctx }) => {
-    return ctx.db.genre.findFirst({
-      orderBy: { name: "desc" },
+    return ctx.db.genre.findMany({
+      take: 50,
+      orderBy: { name: "asc" },
     });
   }),
 

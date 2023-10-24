@@ -44,6 +44,7 @@ export default async function Home() {
     type: "artist",
   });
   const genre = await api.post.genre.query();
+  console.log(genre);
   const tableRows: JSX.Element[] =
     results.map(
       (artist: {
@@ -63,8 +64,8 @@ export default async function Home() {
     genre?.map((genre: any) => (
       <TableRow key={genre.id}>
         <TableCell>{genre.name}</TableCell>
-        <TableCell>{artist.playlist}</TableCell>
-        <TableCell>{artist.hex}</TableCell>
+        <TableCell>{genre.playlist}</TableCell>
+        <TableCell>{genre.hex}</TableCell>
       </TableRow>
     )) || [];
   return (
@@ -84,7 +85,7 @@ export default async function Home() {
               <TableHead>Followers</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>{tableRows}</TableBody>
+          <TableBody>{genreRows}</TableBody>
         </Table>
       </div>
     </main>
