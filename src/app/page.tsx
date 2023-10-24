@@ -21,6 +21,7 @@ import {
 
 import { ModeToggle } from "~/@/components/ui/toggle";
 import { Button } from "~/@/components/ui/button";
+import GenreGrid from "./_components/GenreGrid";
 
 export default async function Home() {
   const user = await currentUser();
@@ -37,44 +38,15 @@ export default async function Home() {
         </div>
       </main>
     );
-
-  const results = await api.post.artist.query({
-    userId: user.id,
-    q: "Beatles",
-    type: "artist",
-  });
-  const genre = await api.post.genre.query();
-  console.log(genre);
-  const tableRows: JSX.Element[] =
-    results.map(
-      (artist: {
-        id: string;
-        name: string;
-        popularity: number;
-        followers?: { total?: number };
-      }) => (
-        <TableRow key={artist.id}>
-          <TableCell>{artist.name}</TableCell>
-          <TableCell>{artist.popularity}</TableCell>
-          <TableCell>{artist.followers?.total}</TableCell>
-        </TableRow>
-      ),
-    ) || [];
-  const genreRows: JSX.Element[] =
-    genre?.map((genre: any) => (
-      <TableRow key={genre.id}>
-        <TableCell>{genre.name}</TableCell>
-        <TableCell>{genre.playlist}</TableCell>
-        <TableCell>{genre.hex}</TableCell>
-      </TableRow>
-    )) || [];
   return (
     <main className="justify-centerq flex min-h-screen flex-col items-center">
       <div>
         <ModeToggle />
       </div>
+
+      <UserButton />
+      <GenreGrid></GenreGrid>
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <UserButton />
         <Button>Click me</Button>
         <Table>
           <TableCaption>The Beatles</TableCaption>
@@ -85,7 +57,7 @@ export default async function Home() {
               <TableHead>Followers</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>{genreRows}</TableBody>
+          <TableBody>{}</TableBody>
         </Table>
       </div>
     </main>

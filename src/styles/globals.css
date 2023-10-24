@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .zoomAnimate {
+    @apply scale-100 transition duration-300 ease-out hover:scale-110;
+  }
+  .genreBtn {
+    @apply inline-flex items-center whitespace-nowrap rounded-2xl border-2 border-fuchsia-800 p-2 text-lg hover:bg-slate-200 hover:dark:bg-black md:p-4 md:text-2xl;
+  }
+  .badge {
+    @apply absolute inline-flex items-center justify-center rounded-br-xl rounded-tl-2xl bg-purple-400 px-1 text-sm font-bold leading-none dark:bg-purple-800 md:text-lg;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
