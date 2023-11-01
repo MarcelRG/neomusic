@@ -46,20 +46,6 @@ export default async function Home() {
 
       <UserButton />
       <GenreGrid></GenreGrid>
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <Button>Click me</Button>
-        <Table>
-          <TableCaption>The Beatles</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Popularity</TableHead>
-              <TableHead>Followers</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>{}</TableBody>
-        </Table>
-      </div>
     </main>
   );
 }
