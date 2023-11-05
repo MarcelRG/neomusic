@@ -38,6 +38,19 @@ export const postRouter = createTRPCRouter({
       return items;
     }),
 
+  search: publicProcedure
+    .input(z.object({ genre: z.string().min(1) }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.genre.findMany({
+        take: 100,
+        where: {
+          name: {
+            contains: input.genre,
+          },
+        },
+      });
+    }),
+
   genre: publicProcedure.query(({ ctx }) => {
     return ctx.db.genre.findMany({
       take: 100,

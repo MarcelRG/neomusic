@@ -3,26 +3,29 @@ import { api } from "~/trpc/react";
 import { useState, useEffect } from "react";
 import GenrePlayer from "./GenrePlayer";
 
-export default function GenreGrid() {
-  const genre = api.post.genre.useQuery().data;
-  const [currentGenre, setCurrentGenre] = useState(genre?.[0]);
+export default function GenreGrid({ search }) {
+  const [currentGenre, setCurrentGenre] = useState(search?.[0]);
   useEffect(() => {
-    if (genre && genre.length > 0) {
-      setCurrentGenre(genre[0]);
+    if (search && search.length > 0) {
+      setCurrentGenre(search[0]);
     }
-  }, [genre]);
+  }, [search]);
 
-  if (!genre) {
+  if (!search) {
     return null;
   }
 
   return (
     <>
       <div className="container flex flex-row flex-wrap justify-center gap-2.5">
-        {genre?.map((g, index) => {
+        {search?.map((g, index) => {
           return (
             <button
-              className={currentGenre?.id === g.id ? "selected" : "zoomAnimate"}
+              className={
+                currentGenre?.id === g.id
+                  ? "selected zoomAnimate"
+                  : "zoomAnimate"
+              }
               key={g.id}
               onClick={() => {
                 setCurrentGenre(g);

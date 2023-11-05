@@ -21,7 +21,8 @@ import {
 
 import { ModeToggle } from "~/@/components/ui/toggle";
 import { Button } from "~/@/components/ui/button";
-import GenreGrid from "./_components/GenreGrid";
+import GenreGrid from "~/app/_components/GenreGrid";
+import Toolbar from "~/app/_components/Toolbar";
 
 export default async function Home() {
   const user = await currentUser();
@@ -43,7 +44,7 @@ export default async function Home() {
       <ModeToggle />
 
       <UserButton />
-      <GenreGrid />
+      <Toolbar />
     </main>
   );
 }
