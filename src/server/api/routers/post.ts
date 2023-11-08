@@ -48,6 +48,7 @@ export const postRouter = createTRPCRouter({
             contains: input.genre,
           },
         },
+        orderBy: { popularity: "asc" },
       });
     }),
 

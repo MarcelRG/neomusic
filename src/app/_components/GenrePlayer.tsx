@@ -11,7 +11,7 @@ const GenrePlayer: React.FC<GenrePlayerProps> = ({ currentGenre }) => {
       className={
         !currentGenre?.id
           ? "hidden"
-          : "fixed bottom-0 flex w-full justify-center p-10"
+          : "fixed bottom-0 flex w-full justify-center px-10 pb-10"
       }
     >
       <iframe

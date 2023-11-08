@@ -4,48 +4,76 @@ import { Button } from "~/@/components/ui/button";
 import { Input } from "~/@/components/ui/input";
 import { api } from "~/trpc/react";
 import GenreGrid from "./GenreGrid";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/@/components/ui/form";
 
+const FormSchema = z.object({
+  search: z.string(),
+});
 const Toolbar = () => {
-  const [inputValue, setInputValue] = useState("");
-
-  const genreQuery = api.post.genre.useQuery();
-  const searchQuery = api.post.search.useQuery({ genre: inputValue });
-
-  const defaultOrder = genreQuery.data ? genreQuery.data : null;
-  const genreData = searchQuery.data ? searchQuery.data : null;
-
-  const [search, setSearch] = useState(null);
-
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      search: "",
+    },
+  });
+  const defaultQuery = api.post.genre.useQuery();
+  const [data, setData] = useState(defaultQuery.data);
+  const [genre, setGenre] = useState("");
+  const genreQuery = api.post.search.useQuery({
+    genre: data?.search,
+  });
   useEffect(() => {
-    if (!search && defaultOrder) {
-      setSearch(defaultOrder);
-    }
-  }, [search, defaultOrder]);
-
-  const handleSearch = () => {
-    if (inputValue !== "") {
-      setSearch(genreData);
+    if (data && data.search !== "") {
+      setGenre(genreQuery.data);
     } else {
-      setSearch(defaultOrder);
+      setGenre(defaultQuery.data);
     }
-  };
+  }, [data, genreQuery, defaultQuery]);
+
+  function handleSubmit(data: z.infer<typeof FormSchema>) {
+    if (data && data.search !== "") {
+      setData(data);
+    } else {
+      setGenre(defaultQuery.data);
+    }
+    if (genre && genre.isLoading) {
+      console.log("Loading...");
+    }
+  }
 
   return (
     <>
-      <div className="container flex items-center justify-between">
-        <div className="flex flex-1 items-center">
-          <Input
-            placeholder="Search a genre..."
-            className="h-16 w-full"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleSubmit)}
+          className="flex flex-row"
+        >
+          <FormField
+            control={form.control}
+            name="search"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder="Search a genre..." {...field} />
+                </FormControl>
+              </FormItem>
+            )}
           />
-          <Button className="h-16 w-full" onClick={handleSearch}>
-            Search
-          </Button>
-        </div>
-      </div>
-      <GenreGrid search={search} />
+          <Button type="submit">Search</Button>
+        </form>
+      </Form>
+      <GenreGrid search={genre} />
     </>
   );
 };
