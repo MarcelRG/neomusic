@@ -27,29 +27,20 @@ const Toolbar = () => {
       search: "",
     },
   });
-  const defaultQuery = api.post.genre.useQuery();
-  const [data, setData] = useState(defaultQuery.data);
   const [genre, setGenre] = useState("");
-  const genreQuery = api.post.search.useQuery({
-    genre: data?.search,
-  });
-  useEffect(() => {
-    if (data && data.search !== "") {
-      setGenre(genreQuery.data);
-    } else {
-      setGenre(defaultQuery.data);
-    }
-  }, [data, genreQuery, defaultQuery]);
-
+  const defaultQuery = api.post.genre.useQuery();
+  const searchQuery = api.post.search.useQuery(
+    {
+      genre: genre,
+    },
+    {
+      enabled: genre !== "",
+    },
+  );
+  let query = defaultQuery;
+  query = genre !== "" ? searchQuery : defaultQuery;
   function handleSubmit(data: z.infer<typeof FormSchema>) {
-    if (data && data.search !== "") {
-      setData(data);
-    } else {
-      setGenre(defaultQuery.data);
-    }
-    if (genre && genre.isLoading) {
-      console.log("Loading...");
-    }
+    setGenre(data.search);
   }
 
   return (
@@ -73,7 +64,8 @@ const Toolbar = () => {
           <Button type="submit">Search</Button>
         </form>
       </Form>
-      <GenreGrid search={genre} />
+      {query?.isLoading ? <h1>Loading</h1> : null}
+      <GenreGrid search={query.data} />
     </>
   );
 };
