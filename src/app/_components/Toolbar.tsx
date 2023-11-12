@@ -56,7 +56,7 @@ const Toolbar = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Search a genreName..." {...field} />
+                  <Input placeholder="Search a genre..." {...field} />
                 </FormControl>
               </FormItem>
             )}
