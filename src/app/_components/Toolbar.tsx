@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "~/@/components/ui/button";
 import { Input } from "~/@/components/ui/input";
 import { api } from "~/trpc/react";
@@ -27,20 +27,20 @@ const Toolbar = () => {
       search: "",
     },
   });
-  const [genre, setGenre] = useState("");
+  const [genreName, setgenreName] = useState("");
   const defaultQuery = api.post.genre.useQuery();
   const searchQuery = api.post.search.useQuery(
     {
-      genre: genre,
+      genre: genreName,
     },
     {
-      enabled: genre !== "",
+      enabled: genreName !== "",
     },
   );
   let query = defaultQuery;
-  query = genre !== "" ? searchQuery : defaultQuery;
+  query = genreName !== "" ? searchQuery : defaultQuery;
   function handleSubmit(data: z.infer<typeof FormSchema>) {
-    setGenre(data.search);
+    setgenreName(data.search);
   }
 
   return (
@@ -56,7 +56,7 @@ const Toolbar = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Search a genre..." {...field} />
+                  <Input placeholder="Search a genreName..." {...field} />
                 </FormControl>
               </FormItem>
             )}

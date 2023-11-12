@@ -2,7 +2,13 @@
 import { useState, useEffect } from "react";
 import GenrePlayer from "./GenrePlayer";
 
-export default function GenreGrid({ search }) {
+import type { RouterOutputs } from "~/trpc/shared";
+
+interface Props {
+  search?: RouterOutputs["post"]["genre"];
+}
+
+export default function GenreGrid({ search }: Props) {
   const [currentGenre, setCurrentGenre] = useState(search?.[0]);
   useEffect(() => {
     if (search && search.length > 0) {

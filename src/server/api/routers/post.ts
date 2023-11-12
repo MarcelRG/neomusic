@@ -1,9 +1,7 @@
 import { z } from "zod";
-import { ArtistSearchResult } from "@spotify/web-api-ts-sdk";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { clerkClient } from "@clerk/nextjs/server";
-import { SpotifyApi } from "@spotify/web-api-ts-sdk";
 
 const getToken = async (userId: string) => {
   const response = await clerkClient.users.getUserOauthAccessToken(
@@ -29,13 +27,7 @@ export const postRouter = createTRPCRouter({
           },
         },
       );
-
-      const data = response.ok ? await response.json() : null;
-      const items = data?.artists?.items;
-      if (!items) {
-        throw new Error("Failed to get items");
-      }
-      return items;
+      return response;
     }),
 
   search: publicProcedure
@@ -56,25 +48,6 @@ export const postRouter = createTRPCRouter({
     return ctx.db.genre.findMany({
       take: 100,
       orderBy: { popularity: "asc" },
-    });
-  }),
-
-  create: publicProcedure
-    .input(z.object({ name: z.string().min(1) }))
-    .mutation(async ({ ctx, input }) => {
-      // simulate a slow db call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      return ctx.db.post.create({
-        data: {
-          name: input.name,
-        },
-      });
-    }),
-
-  getLatest: publicProcedure.query(({ ctx }) => {
-    return ctx.db.post.findFirst({
-      orderBy: { createdAt: "desc" },
     });
   }),
 });
