@@ -22,7 +22,7 @@ export default function GenreGrid({ search }: Props) {
 
   return (
     <>
-      <div className="container flex flex-row flex-wrap justify-center gap-2.5">
+      <div className="flex flex-row flex-wrap justify-center gap-2.5 md:container">
         {search?.map((g, index) => {
           return (
             <button
