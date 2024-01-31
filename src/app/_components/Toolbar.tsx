@@ -19,6 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "~/@/components/ui/form";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   search: z.string(),
@@ -31,25 +32,39 @@ const Toolbar = () => {
     },
   });
   const searchParams = useSearchParams();
+  const router = useRouter();
   const page = Number(searchParams.get("page")) || 1;
-  const prevPath = `?page=${page - 1}`;
-  const nextPath = `?page=${page + 1}`;
-  const [genreName, setgenreName] = useState("");
+  const search = searchParams.get("search") ?? "";
+  const prevPath = {
+    pathname: "/",
+    query: {
+      ...(search ? { search } : {}),
+      page: page > 1 ? page - 1 : 1,
+    },
+  };
+  const nextPath = {
+    pathname: "/",
+    query: {
+      ...(search ? { search } : {}),
+      page: page + 1,
+    },
+  };
   const defaultQuery = api.post.genre.useQuery({
     page: page,
   });
   const searchQuery = api.post.search.useQuery(
     {
-      genre: genreName,
+      genre: search,
+      page: page,
     },
     {
-      enabled: genreName !== "",
+      enabled: search !== "",
     },
   );
-  let query = defaultQuery;
-  query = genreName !== "" ? searchQuery : defaultQuery;
+  let query = searchQuery;
+  query = search === "" ? defaultQuery : searchQuery;
   function handleSubmit(data: z.infer<typeof FormSchema>) {
-    setgenreName(data.search);
+    router.push(`?search=${data.search}`);
   }
 
   return (

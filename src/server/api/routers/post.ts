@@ -31,7 +31,7 @@ export const postRouter = createTRPCRouter({
     }),
 
   search: publicProcedure
-    .input(z.object({ genre: z.string().min(1) }))
+    .input(z.object({ genre: z.string(), page: z.number() }))
     .query(async ({ ctx, input }) => {
       return ctx.db.genre.findMany({
         take: 100,
@@ -41,6 +41,7 @@ export const postRouter = createTRPCRouter({
           },
         },
         orderBy: { popularity: "asc" },
+        skip: (input.page - 1) * 100,
       });
     }),
 

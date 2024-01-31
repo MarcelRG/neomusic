@@ -9,8 +9,8 @@ import {
 } from "~/@/components/ui/pagination";
 
 type PaginationControlProps = {
-  prevPath: string;
-  nextPath: string;
+  prevPath: object;
+  nextPath: object;
 };
 
 const PaginationControls = ({ prevPath, nextPath }: PaginationControlProps) => {
