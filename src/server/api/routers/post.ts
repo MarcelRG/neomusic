@@ -44,10 +44,13 @@ export const postRouter = createTRPCRouter({
       });
     }),
 
-  genre: publicProcedure.query(({ ctx }) => {
-    return ctx.db.genre.findMany({
-      take: 100,
-      orderBy: { popularity: "asc" },
-    });
-  }),
+  genre: publicProcedure
+    .input(z.object({ page: z.number() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.genre.findMany({
+        take: 100,
+        orderBy: { popularity: "asc" },
+        skip: (input.page - 1) * 100,
+      });
+    }),
 });

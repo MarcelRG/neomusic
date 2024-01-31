@@ -1,4 +1,3 @@
-"use client";
 import { useState, useEffect } from "react";
 import GenrePlayer from "./GenrePlayer";
 
@@ -6,9 +5,10 @@ import type { RouterOutputs } from "~/trpc/shared";
 
 interface Props {
   search?: RouterOutputs["post"]["genre"];
+  page: number;
 }
 
-export default function GenreGrid({ search }: Props) {
+export default function GenreGrid({ search, page }: Props) {
   const [currentGenre, setCurrentGenre] = useState(search?.[0]);
   useEffect(() => {
     if (search && search.length > 0) {
@@ -36,7 +36,7 @@ export default function GenreGrid({ search }: Props) {
                 setCurrentGenre(g);
               }}
             >
-              <p className="badge">{1 + index}</p>
+              <p className="badge">{index + 1 + 100 * (page - 1)}</p>
               <div className="genreBtn">
                 <p>{g.name}</p>
               </div>

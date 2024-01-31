@@ -3,10 +3,13 @@ import { useState } from "react";
 import { Button } from "~/@/components/ui/button";
 import { Input } from "~/@/components/ui/input";
 import { api } from "~/trpc/react";
-import GenreGrid from "./GenreGrid";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
 import * as z from "zod";
+import GenreGrid from "./GenreGrid";
+import PaginationControls from "./PaginationControls";
+
 import {
   Form,
   FormControl,
@@ -27,8 +30,14 @@ const Toolbar = () => {
       search: "",
     },
   });
+  const searchParams = useSearchParams();
+  const page = Number(searchParams.get("page")) || 1;
+  const prevPath = `?page=${page - 1}`;
+  const nextPath = `?page=${page + 1}`;
   const [genreName, setgenreName] = useState("");
-  const defaultQuery = api.post.genre.useQuery();
+  const defaultQuery = api.post.genre.useQuery({
+    page: page,
+  });
   const searchQuery = api.post.search.useQuery(
     {
       genre: genreName,
@@ -65,7 +74,9 @@ const Toolbar = () => {
         </form>
       </Form>
       {query?.isLoading ? <h1>Loading</h1> : null}
-      <GenreGrid search={query.data} />
+      <GenreGrid search={query.data} page={page} />
+      <PaginationControls prevPath={prevPath} nextPath={nextPath} />
+      <div className="py-20"></div>
     </>
   );
 };
