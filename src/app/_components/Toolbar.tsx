@@ -20,6 +20,8 @@ import {
   FormMessage,
 } from "~/@/components/ui/form";
 import { useRouter } from "next/navigation";
+import { Skeleton } from "~/@/components/ui/skeleton";
+import GenreSkeleton from "./GenreSkeleton";
 
 const FormSchema = z.object({
   search: z.string(),
@@ -88,7 +90,7 @@ const Toolbar = () => {
           <Button type="submit">Search</Button>
         </form>
       </Form>
-      {query?.isLoading ? <h1>Loading</h1> : null}
+      {query?.isLoading ? <GenreSkeleton /> : null}
       <GenreGrid search={query.data} page={page} />
       <PaginationControls prevPath={prevPath} nextPath={nextPath} />
       <div className="py-20"></div>
