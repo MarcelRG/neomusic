@@ -22,14 +22,14 @@ export default function GenreGrid({ search, page }: Props) {
 
   return (
     <>
-      <div className="flex flex-row flex-wrap justify-center gap-2.5 md:container">
+      <div className="container flex flex-wrap justify-center gap-2">
         {search?.map((g, index) => {
           return (
             <button
               className={
                 currentGenre?.id === g.id
-                  ? "selected zoomAnimate"
-                  : "zoomAnimate"
+                  ? "selected zoomAnimate genreBtn flex grow justify-center"
+                  : "zoomAnimate genreBtn flex grow justify-center"
               }
               key={g.id}
               onClick={() => {
@@ -37,9 +37,7 @@ export default function GenreGrid({ search, page }: Props) {
               }}
             >
               <p className="badge">{index + 1 + 100 * (page - 1)}</p>
-              <div className="genreBtn">
-                <p>{g.name}</p>
-              </div>
+              <p>{g.name}</p>
             </button>
           );
         })}
