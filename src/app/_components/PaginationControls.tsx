@@ -11,14 +11,19 @@ import {
 type PaginationControlProps = {
   prevPath: object;
   nextPath: object;
+  page: number;
 };
 
-const PaginationControls = ({ prevPath, nextPath }: PaginationControlProps) => {
+const PaginationControls = ({
+  prevPath,
+  nextPath,
+  page,
+}: PaginationControlProps) => {
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious href={prevPath} />
+          {page > 1 ? <PaginationPrevious href={prevPath} /> : null}
         </PaginationItem>
         <PaginationItem>
           <PaginationLink href="?page=1">1</PaginationLink>
