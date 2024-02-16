@@ -7,13 +7,13 @@
     @apply scale-100 transition duration-300 ease-out hover:scale-110 active:scale-100;
   }
   .genreBtn {
-    @apply inline-flex h-12 items-center whitespace-nowrap rounded-2xl bg-slate-200/50 p-2 hover:bg-slate-200 dark:bg-gray-800/50 hover:dark:bg-gray-800 md:p-6 md:text-2xl;
+    @apply inline-flex h-12 items-center whitespace-nowrap rounded-2xl bg-slate-200/50 p-2 hover:bg-slate-200 dark:bg-gray-800/50 hover:dark:bg-violet-800 md:p-6 md:text-2xl;
   }
   .badge {
     @apply absolute -left-1 -top-1 inline-flex items-center justify-center rounded-full bg-purple-400 px-1 py-1 text-sm font-bold leading-none dark:bg-purple-800 md:text-base;
   }
   .selected {
-    @apply scale-105 rounded-2xl bg-slate-200 dark:bg-gray-800;
+    @apply scale-105 rounded-2xl bg-slate-200 ring-2 dark:ring-violet-800;
   }
 }
 
