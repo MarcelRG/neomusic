@@ -44,6 +44,17 @@ export const postRouter = createTRPCRouter({
         skip: (input.page - 1) * 100,
       });
     }),
+  searchCount: publicProcedure
+    .input(z.object({ genre: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.genre.count({
+        where: {
+          name: {
+            contains: input.genre,
+          },
+        },
+      });
+    }),
 
   genre: publicProcedure
     .input(z.object({ page: z.number() }))
