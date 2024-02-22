@@ -29,18 +29,10 @@ const Toolbar = () => {
   const page = Number(searchParams.get("page")) || 1;
   const search = searchParams.get("search") ?? "";
   const router = useRouter();
-  const defaultQuery = api.post.genre.useQuery({
+  const query = api.post.search.useQuery({
+    genre: search,
     page: page,
   });
-  const searchQuery = api.post.search.useQuery(
-    {
-      genre: search,
-      page: page,
-    },
-    {
-      enabled: search !== "",
-    },
-  );
   const searchCount = api.post.searchCount.useQuery(
     {
       genre: search,
@@ -49,8 +41,6 @@ const Toolbar = () => {
       enabled: search !== "",
     },
   );
-  let query = searchQuery;
-  query = search === "" ? defaultQuery : searchQuery;
 
   const prevPath =
     page > 1
