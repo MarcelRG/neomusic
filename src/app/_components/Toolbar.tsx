@@ -13,6 +13,7 @@ import PaginationControls from "./PaginationControls";
 import { Form, FormControl, FormField, FormItem } from "~/@/components/ui/form";
 import { useRouter } from "next/navigation";
 import GenreSkeleton from "./GenreSkeleton";
+import Sort from "./Sort";
 
 const FormSchema = z.object({
   search: z.string(),
@@ -95,6 +96,7 @@ const Toolbar = () => {
             )}
           />
           <Button type="submit">Search</Button>
+          <Sort />
         </form>
       </Form>
       {(() => {
