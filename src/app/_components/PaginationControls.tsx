@@ -37,7 +37,7 @@ const PaginationControls = ({
           ) : null}
         </PaginationItem>
         {pages.map((page) => {
-          if (Math.abs(currentPage - page) <= 3) {
+          if (Math.abs(currentPage - page) <= 2) {
             return (
               <>
                 <PaginationItem
