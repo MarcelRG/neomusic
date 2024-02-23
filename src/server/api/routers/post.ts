@@ -31,13 +31,18 @@ export const postRouter = createTRPCRouter({
     }),
 
   search: publicProcedure
-    .input(z.object({ genre: z.string(), page: z.number() }))
+    .input(
+      z.object({
+        genre: z.string(),
+        page: z.number(),
+        sort: z.string(),
+      }),
+    )
     .query(async ({ ctx, input }) => {
-      const orderBy = { name: "asc" as const };
       if (input.genre === "") {
         return ctx.db.genre.findMany({
           take: 100,
-          orderBy: { popularity: "asc" },
+          orderBy: { [input.sort]: "asc" },
           skip: (input.page - 1) * 100,
         });
       } else {
@@ -48,7 +53,7 @@ export const postRouter = createTRPCRouter({
               contains: input.genre,
             },
           },
-          orderBy: orderBy,
+          orderBy: { [input.sort]: "asc" },
           skip: (input.page - 1) * 100,
         });
       }
