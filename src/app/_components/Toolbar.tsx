@@ -35,6 +35,7 @@ const Toolbar = () => {
     defaultValues: {
       search: "",
       sort: "popularity",
+      order: "asc",
     },
   });
   const searchParams = useSearchParams();
@@ -83,7 +84,7 @@ const Toolbar = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="flex flex-row"
+          className="flex flex-row p-4"
         >
           <FormField
             control={form.control}

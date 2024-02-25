@@ -7,6 +7,7 @@ import {
   useUser,
 } from "@clerk/nextjs";
 import Link from "next/link";
+import Image from "next/image";
 
 import { api } from "~/trpc/server";
 import {
@@ -40,10 +41,30 @@ export default async function Home() {
       </main>
     );
   return (
-    <main className="justify-centerq flex min-h-screen flex-col items-center">
-      <ModeToggle />
-      <UserButton />
-      <Toolbar />
+    <main>
+      <nav className="flex justify-between p-4">
+        <a
+          href="https://www.neomusic.com"
+          className="flex items-center space-x-2 justify-self-start p-2"
+        >
+          <Image
+            priority
+            className="rounded-full shadow-xl"
+            src={"/images/orbLogo.svg"}
+            width={40}
+            height={40}
+            alt="Neomusic Orb Logo"
+          />
+          <h1 className="text-4xl font-bold">neomusic</h1>
+        </a>
+        <div className="flex items-center space-x-2">
+          <ModeToggle />
+          <UserButton />
+        </div>
+      </nav>
+      <div className="flex flex-col items-center">
+        <Toolbar />
+      </div>
     </main>
   );
 }
