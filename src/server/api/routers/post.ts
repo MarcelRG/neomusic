@@ -36,13 +36,14 @@ export const postRouter = createTRPCRouter({
         genre: z.string(),
         page: z.number(),
         sort: z.string(),
+        order: z.string(),
       }),
     )
     .query(async ({ ctx, input }) => {
       if (input.genre === "") {
         return ctx.db.genre.findMany({
           take: 100,
-          orderBy: { [input.sort]: "asc" },
+          orderBy: { [input.sort]: input.order },
           skip: (input.page - 1) * 100,
         });
       } else {
@@ -53,7 +54,7 @@ export const postRouter = createTRPCRouter({
               contains: input.genre,
             },
           },
-          orderBy: { [input.sort]: "asc" },
+          orderBy: { [input.sort]: input.order },
           skip: (input.page - 1) * 100,
         });
       }

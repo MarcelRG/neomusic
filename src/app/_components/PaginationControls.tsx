@@ -2,7 +2,6 @@ import { useSearchParams } from "next/navigation";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,

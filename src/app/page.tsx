@@ -19,7 +19,7 @@ import {
   TableRow,
 } from "~/@/components/ui/table";
 
-import { ModeToggle } from "~/@/components/ui/toggle";
+import { ModeToggle } from "~/@/components/ui/DarkLightToggle";
 import { Button } from "~/@/components/ui/button";
 import GenreGrid from "~/app/_components/GenreGrid";
 import Toolbar from "~/app/_components/Toolbar";
