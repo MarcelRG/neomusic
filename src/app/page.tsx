@@ -9,24 +9,11 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 
-import { api } from "~/trpc/server";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "~/@/components/ui/table";
-
 import { ModeToggle } from "~/@/components/ui/DarkLightToggle";
-import { Button } from "~/@/components/ui/button";
-import GenreGrid from "~/app/_components/GenreGrid";
 import Toolbar from "~/app/_components/Toolbar";
 
-export default async function Home() {
-  const user = await currentUser();
+export default function Home() {
+  const user = true; //await currentUser();
   if (!user)
     return (
       <main className="flex min-h-screen flex-col items-center justify-center">
