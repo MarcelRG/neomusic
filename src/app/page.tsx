@@ -31,7 +31,7 @@ export default function Home() {
     <main>
       <nav className="flex justify-between p-4">
         <a
-          href="https://www.neomusic.com"
+          href="https://www.neomusic.top"
           className="flex items-center space-x-2 justify-self-start p-2"
         >
           <Image
