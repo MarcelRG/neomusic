@@ -13,10 +13,13 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "neomusic - discover your new favorite music",
+  title: "neomusic - discover your new favorite songs",
   description:
-    "Music discovery tool. Find new music based on your favorite genres.",
+    "Explore fresh, genre-specific tracks tailored to your unique musical taste.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
+  openGraph: {
+    images: ["/metaimg.png"],
+  },
 };
 
 export default function RootLayout({
