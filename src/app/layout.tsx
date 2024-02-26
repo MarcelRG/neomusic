@@ -18,6 +18,11 @@ export const metadata = {
     "Explore fresh, genre-specific tracks tailored to your unique musical taste.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
   openGraph: {
+    title: "neomusic - discover your new favorite songs",
+    description:
+      "Explore fresh, genre-specific tracks tailored to your unique musical taste.",
+    url: "https://www.neomusic.top",
+    type: "website",
     images: ["/metaimg.png"],
   },
 };
