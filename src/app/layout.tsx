@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "~/@/components/theme-provider";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -46,6 +47,7 @@ export default function RootLayout({
               {children}
             </TRPCReactProvider>
           </ThemeProvider>
+          <Analytics />
         </body>
       </html>
     </ClerkProvider>
