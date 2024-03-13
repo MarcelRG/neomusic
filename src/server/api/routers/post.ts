@@ -52,6 +52,7 @@ export const postRouter = createTRPCRouter({
           where: {
             name: {
               contains: input.genre,
+              mode: "insensitive",
             },
           },
           orderBy: { [input.sort]: input.order },
