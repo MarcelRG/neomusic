@@ -22,7 +22,7 @@ const PaginationControls = ({
   currentPage,
 }: PaginationControlProps) => {
   const pages = Array.from(
-    { length: (searchCount ?? 0) / 100 + 1 },
+    { length: (searchCount ?? 0) / 50 + 1 },
     (_, i) => i + 1,
   );
   const searchParams = useSearchParams();
