@@ -42,13 +42,13 @@ export const postRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       if (input.genre === "") {
         return ctx.db.genre.findMany({
-          take: 100,
+          take: 50,
           orderBy: { [input.sort]: input.order },
-          skip: (input.page - 1) * 100,
+          skip: (input.page - 1) * 50,
         });
       } else {
         return ctx.db.genre.findMany({
-          take: 100,
+          take: 50,
           where: {
             name: {
               contains: input.genre,
@@ -56,7 +56,7 @@ export const postRouter = createTRPCRouter({
             },
           },
           orderBy: { [input.sort]: input.order },
-          skip: (input.page - 1) * 100,
+          skip: (input.page - 1) * 50,
         });
       }
     }),
@@ -76,9 +76,9 @@ export const postRouter = createTRPCRouter({
     .input(z.object({ page: z.number() }))
     .query(({ ctx, input }) => {
       return ctx.db.genre.findMany({
-        take: 100,
+        take: 50,
         orderBy: { popularity: "asc" },
-        skip: (input.page - 1) * 100,
+        skip: (input.page - 1) * 50,
       });
     }),
 });
