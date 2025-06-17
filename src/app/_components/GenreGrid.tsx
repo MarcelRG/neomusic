@@ -24,7 +24,7 @@ export default function GenreGrid({ search, page }: Props) {
     <div className="space-y-8">
       {/* Genre Grid */}
       <div className="container mx-auto max-w-7xl px-4">
-        <div className="grid grid-cols-5 gap-3">
+        <div className="grid grid-cols-3 gap-3 md:grid-cols-4 lg:grid-cols-5">
           {search?.map((g, index) => {
             const isSelected = currentGenre?.id === g.id;
             const genreNumber = index + 1 + 50 * (page - 1);
