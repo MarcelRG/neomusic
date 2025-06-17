@@ -12,8 +12,68 @@
   .badge {
     @apply absolute -left-1 -top-1 inline-flex items-center justify-center rounded-full bg-purple-400 px-1 py-1 text-sm font-bold leading-none dark:bg-purple-800 md:text-base;
   }
+  
+  /* Enhanced badge with 3D effect */
+  .badge-3d {
+    @apply relative;
+    box-shadow: 
+      0 4px 8px rgba(139, 92, 246, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+      0 1px 0 rgba(255, 255, 255, 0.5) inset;
+  }
+  
+  .badge-3d::before {
+    content: '';
+    @apply absolute inset-0 rounded-full;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%, rgba(0,0,0,0.1) 100%);
+    pointer-events: none;
+  }
+  
+  .badge-pulse {
+    animation: badge-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  @keyframes badge-pulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+  }
   .selected {
     @apply rounded-2xl bg-slate-200 ring-2 ring-violet-400 dark:ring-violet-800;
+  }
+  
+  /* Enhanced genre grid animations */
+  .genre-card {
+    @apply transition-all duration-300 ease-out transform;
+  }
+  
+  .genre-card:hover {
+    @apply -translate-y-1 scale-105 shadow-xl;
+  }
+  
+  .genre-card:active {
+    @apply scale-95 translate-y-0;
+  }
+  
+  /* Shimmer effect */
+  .shimmer {
+    @apply relative overflow-hidden;
+  }
+  
+  .shimmer::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent;
+    transform: translateX(-100%) skewX(-12deg);
+    transition: transform 0.7s ease-out;
+  }
+  
+  .shimmer:hover::after {
+    transform: translateX(100%) skewX(-12deg);
   }
 }
 
