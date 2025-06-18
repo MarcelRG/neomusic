@@ -8,9 +8,14 @@ import {
   PaginationPrevious,
 } from "~/@/components/ui/pagination";
 
+interface PathObject {
+  pathname?: string;
+  query?: Record<string, string | number>;
+}
+
 type PaginationControlProps = {
-  prevPath: object;
-  nextPath: object;
+  prevPath: PathObject;
+  nextPath: PathObject;
   searchCount: number;
   currentPage: number;
 };
@@ -21,45 +26,50 @@ const PaginationControls = ({
   searchCount,
   currentPage,
 }: PaginationControlProps) => {
-  const pages = Array.from(
-    { length: (searchCount ?? 0) / 50 + 1 },
-    (_, i) => i + 1,
-  );
   const searchParams = useSearchParams();
   const search = searchParams.get("search") ?? "";
+  const sort = searchParams.get("sort") ?? "popularity";
+  const order = searchParams.get("order") ?? "asc";
+
+  const totalPages = Math.ceil((searchCount ?? 0) / 50);
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+  if (totalPages <= 1) {
+    return null;
+  }
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem>
           {prevPath && Object.keys(prevPath).length !== 0 ? (
             <PaginationPrevious href={prevPath} />
-          ) : null}
+          ) : (
+            <PaginationPrevious
+              href="#"
+              className="pointer-events-none opacity-0"
+              aria-disabled="true"
+            />
+          )}
         </PaginationItem>
         {pages.map((page) => {
           if (Math.abs(currentPage - page) <= 2) {
             return (
-              <>
-                <PaginationItem
-                  key={page}
-                  className={
-                    currentPage === page
-                      ? "inline-flex h-10 w-10 items-center justify-center rounded-md bg-accent text-sm font-medium ring-offset-background transition-colors hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-                      : ""
-                  }
+              <PaginationItem key={page}>
+                <PaginationLink
+                  href={{
+                    pathname: "/",
+                    query: {
+                      ...(search && { search }),
+                      ...(sort !== "popularity" && { sort }),
+                      ...(order !== "asc" && { order }),
+                      page: page,
+                    },
+                  }}
+                  isActive={currentPage === page}
                 >
-                  <PaginationLink
-                    href={{
-                      pathname: "/",
-                      query: {
-                        ...(search && { search }),
-                        page: page,
-                      },
-                    }}
-                  >
-                    {page}
-                  </PaginationLink>
-                </PaginationItem>
-              </>
+                  {page}
+                </PaginationLink>
+              </PaginationItem>
             );
           } else {
             return null;
@@ -69,7 +79,13 @@ const PaginationControls = ({
         <PaginationItem>
           {nextPath && Object.keys(nextPath).length !== 0 ? (
             <PaginationNext href={nextPath} />
-          ) : null}
+          ) : (
+            <PaginationNext
+              href="#"
+              className="pointer-events-none opacity-0"
+              aria-disabled="true"
+            />
+          )}
         </PaginationItem>
       </PaginationContent>
     </Pagination>

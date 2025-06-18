@@ -90,19 +90,31 @@ const Toolbar = () => {
     }
   }, [query.isLoading]);
 
+  const totalPages = Math.ceil((searchCount.data ?? 0) / 50);
+
   const prevPath =
     page > 1
       ? {
           pathname: "/",
-          query: { ...(search && { search }), page: page - 1 },
+          query: {
+            ...(search && { search }),
+            ...(sort !== "popularity" && { sort }),
+            ...(order !== "asc" && { order }),
+            page: page - 1,
+          },
         }
       : {};
 
   const nextPath =
-    (query?.data?.length ?? 0) >= 50
+    page < totalPages
       ? {
           pathname: "/",
-          query: { ...(search && { search }), page: page + 1 },
+          query: {
+            ...(search && { search }),
+            ...(sort !== "popularity" && { sort }),
+            ...(order !== "asc" && { order }),
+            page: page + 1,
+          },
         }
       : {};
 
@@ -160,7 +172,9 @@ const Toolbar = () => {
           {/* Filter Section - Always Visible */}
           <div className="flex items-center justify-between">
             <div className="text-sm text-muted-foreground">
-              {searchCount.data} results
+              {searchCount.isLoading || searchCount.data === undefined
+                ? null
+                : `${searchCount.data} results`}
             </div>
           </div>
 
