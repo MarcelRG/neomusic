@@ -11,6 +11,9 @@ dependencies:
   '@hookform/resolvers':
     specifier: ^3.3.2
     version: 3.3.2(react-hook-form@7.48.2)
+  '@paper-design/shaders-react':
+    specifier: ^0.0.40
+    version: 0.0.40(@types/react@18.2.28)(react@18.2.0)
   '@prisma/client':
     specifier: ^5.5.2
     version: 5.5.2(prisma@5.5.2)
@@ -677,6 +680,24 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
+
+  /@paper-design/shaders-react@0.0.40(@types/react@18.2.28)(react@18.2.0):
+    resolution: {integrity: sha512-4VKn8KWUQK+hcR101rQuVLwIQwbIKOaf5dyTkmzAErMydp1efYSOPKpRTQcxX5fnPIETPQnJZoicPBwySLck0Q==}
+    peerDependencies:
+      '@types/react': ^18 || ^19
+      react: ^18 || ^19
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@paper-design/shaders': 0.0.36
+      '@types/react': 18.2.28
+      react: 18.2.0
+    dev: false
+
+  /@paper-design/shaders@0.0.36:
+    resolution: {integrity: sha512-oUmv9eLHIsmyGT3Tt/8IytseOilucEKjoDDfUnGitObl3G3FleRx44Dim5+zwZDOGuCnw/EOdfQ1W4/xtulAMA==}
+    dev: false
 
   /@peculiar/asn1-schema@2.3.6:
     resolution: {integrity: sha512-izNRxPoaeJeg/AyH8hER6s+H7p4itk+03QCa4sbxI3lNdseQYCuxzgsuNK8bTXChtLTjpJz6NmXKA73qLa3rCA==}

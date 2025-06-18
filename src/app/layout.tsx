@@ -7,6 +7,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "~/@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
+import { AnimatedBackground } from "~/@/components/animated-background";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,13 +37,14 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`font-sans ${inter.variable}`}>
+        <body className={`font-sans ${inter.variable} relative`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
+            <AnimatedBackground />
             <TRPCReactProvider headers={headers()}>
               {children}
             </TRPCReactProvider>
